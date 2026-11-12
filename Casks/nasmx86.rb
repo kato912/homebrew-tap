@@ -8,25 +8,25 @@ cask "nasmx86" do
     depends_on cask: "xquartz"
   end
 
-  version "0.7.0"
+  version "0.8.0"
 
   on_macos do
     on_arm do
-      sha256 "0a751f42415b3766f06072558e8b73389b20fb43041028a4c1d8e9326aaa7e61"
+      sha256 "edac1da9eb86f6cdcae604954b2f12a27237fa3b82e4174e45bd1a38af09ee85"
       url "https://github.com/kato912/assembly-x86-on-mac-apple-silicon/releases/download/v#{version}/nasmx86_#{version}_darwin_arm64.tar.gz"
     end
     on_intel do
-      sha256 "3c929603a807126d48eb7966407f386c1161e745e21a242e7596937514d7807a"
+      sha256 "410b7a3f15c575acb4cee29452252a24efed339649607cb6f80d4ece9a595814"
       url "https://github.com/kato912/assembly-x86-on-mac-apple-silicon/releases/download/v#{version}/nasmx86_#{version}_darwin_amd64.tar.gz"
     end
   end
   on_linux do
     on_arm do
-      sha256 "1ed556677aef1df3a3c029822af3fd0e7ecbd9d8a8eff5c15cae3cf173b4bc03"
+      sha256 "31cb3eda2ddb30b9cf9317ee01bd4294203647aa48356645e533340803576016"
       url "https://github.com/kato912/assembly-x86-on-mac-apple-silicon/releases/download/v#{version}/nasmx86_#{version}_linux_arm64.tar.gz"
     end
     on_intel do
-      sha256 "5afb1c7051e0772119758174485efda781ca5cc30ffed664ea70dd2e113274f2"
+      sha256 "bdb709d3d25bb9e108ebf17276747e4f32e39e86056a58ead526bb6f26886425"
       url "https://github.com/kato912/assembly-x86-on-mac-apple-silicon/releases/download/v#{version}/nasmx86_#{version}_linux_amd64.tar.gz"
     end
   end
@@ -40,6 +40,7 @@ cask "nasmx86" do
   end
   depends_on formula: [
       "nasm",
+      "yasm",
     ]
 
   binary "nasmx86"
@@ -47,6 +48,15 @@ cask "nasmx86" do
   postflight_steps do
     on_macos do
       run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{staged_path}}/nasmx86"]
+      run "{{staged_path}}/nasmx86", args: ["setup"], must_succeed: false, print_stdout: true,
+          writable_paths: [".zshrc", ".bash_profile"], writable_base: :home
+    end
+  end
+
+  uninstall_preflight_steps do
+    on_macos do
+      run "{{staged_path}}/nasmx86", args: ["setup", "--remove"], must_succeed: false, print_stdout: true,
+          writable_paths: [".zshrc", ".bash_profile"], writable_base: :home
     end
   end
 
@@ -56,6 +66,11 @@ cask "nasmx86" do
     Example programs: https://github.com/kato912/assembly-x86-on-mac-apple-silicon/tree/main/examples
     Try:  nasmx86 hello.asm   (nasmx86 --help for options, --th for Thai)
     Debug in DDD (macOS):  nasmx86 --ddd hello.asm
+    Linux commands (macOS, in a new terminal window):
+      yasm -f elf64 -g dwarf2 -o hello.o hello.s
+      ld -o hello hello.o      (or gcc -o hello hello.o for main and printf)
+      ./hello
+      ddd ./hello &
     Remove it all (macOS):  brew uninstall nasmx86 xquartz
   EOS
 end
