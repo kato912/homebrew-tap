@@ -8,25 +8,25 @@ cask "nasmx86" do
     depends_on cask: "xquartz"
   end
 
-  version "0.8.0"
+  version "0.8.1"
 
   on_macos do
     on_arm do
-      sha256 "edac1da9eb86f6cdcae604954b2f12a27237fa3b82e4174e45bd1a38af09ee85"
+      sha256 "4165900a57ed6cf3ce2e06fbf54752bd28e7e4fe20fd211e23ef6f2c4d29f862"
       url "https://github.com/kato912/assembly-x86-on-mac-apple-silicon/releases/download/v#{version}/nasmx86_#{version}_darwin_arm64.tar.gz"
     end
     on_intel do
-      sha256 "410b7a3f15c575acb4cee29452252a24efed339649607cb6f80d4ece9a595814"
+      sha256 "dec7a6161a9fa96e7d06247a0f9d102a933ee7c2a2714a351e580bc775e10cc4"
       url "https://github.com/kato912/assembly-x86-on-mac-apple-silicon/releases/download/v#{version}/nasmx86_#{version}_darwin_amd64.tar.gz"
     end
   end
   on_linux do
     on_arm do
-      sha256 "31cb3eda2ddb30b9cf9317ee01bd4294203647aa48356645e533340803576016"
+      sha256 "7b5ad333089036630aa7932a075ffa264a4e7e0170f8954d2b240c136901414d"
       url "https://github.com/kato912/assembly-x86-on-mac-apple-silicon/releases/download/v#{version}/nasmx86_#{version}_linux_arm64.tar.gz"
     end
     on_intel do
-      sha256 "bdb709d3d25bb9e108ebf17276747e4f32e39e86056a58ead526bb6f26886425"
+      sha256 "61849f0503b5a74148ac5fec86c38a206884aaf6ee670160a04723c9d1e653fd"
       url "https://github.com/kato912/assembly-x86-on-mac-apple-silicon/releases/download/v#{version}/nasmx86_#{version}_linux_amd64.tar.gz"
     end
   end
